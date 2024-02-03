@@ -57,6 +57,8 @@ gen_config_file() {
 	json_add_int "server_port" $(uci_get_by_name $1 server_port)
 	json_add_string "method" "$(uci_get_by_name $1 encrypt_method)"
 	json_add_string "local_address" "0.0.0.0"
+	json_add_string "mode" "tcp_and_udp"
+	json_add_int "local_port" 65530
 	json_add_int "timeout" $(uci_get_by_name $1 timeout 60)
 	if is_ssr $1; then
 		json_add_string "password" "$(uci_get_by_name $1 password)"
@@ -138,11 +140,12 @@ start_redir() {
 	local prog=$(is_ssr $1 && echo ssr-redir || echo ss-redir)
 	command -v $prog >/dev/null 2>&1 || return 0
 	procd_open_instance ss-redir$4-$2
-	procd_set_param command $prog -c /var/etc/$NAME.$1.json $3
-	procd_append_param command -l "$(uci_get_by_type transparent_proxy local_port 1234)"
-	procd_append_param command --mtu "$(uci_get_by_type transparent_proxy mtu 1492)"
-	is_ssr $1 || procd_append_bool_by_uci_name --fast-open $1 fast_open
-	is_ssr $1 || procd_append_bool_by_uci_name --no-delay $1 no_delay
+	procd_set_param command $prog -c /var/etc/$NAME.$1.json
+	procd_append_param command -U
+	procd_append_param command -b=0.0.0.0:1234
+	procd_append_param command --protocol redir --tcp-redir "redirect" --udp-redir "tproxy" -6 -n 51200
+	is_ssr $1 || procd_append_bool_by_uci_name --tcp-fast-open $1 fast_open
+	is_ssr $1 || procd_append_bool_by_uci_name --tcp-no-delay $1 no_delay
 	procd_set_param pidfile /var/run/ss-redir$4-$1-$2.pid
 	procd_common_param
 }
