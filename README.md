@@ -83,13 +83,13 @@ cd OpenWrt-SDK-ar71xx-*
 # Clone 项目
 git clone https://github.com/sijidou/luci-app-shadowsocks-rust.git package/luci-app-shadowsocks-rust
 # 编译 po2lmo (如果有po2lmo可跳过)
-pushd package/luci-app-shadowsocks/tools/po2lmo
+pushd package/luci-app-shadowsocks-rust/tools/po2lmo
 make && sudo make install
 popd
 # 选择要编译的包 LuCI -> 3. Applications
 make menuconfig
 # 开始编译
-make package/luci-app-shadowsocks/compile V=99
+make package/luci-app-shadowsocks-rust/compile V=99
 ```
 
  [release_badge]: https://img.shields.io/github/release/shadowsocks/luci-app-shadowsocks.svg
