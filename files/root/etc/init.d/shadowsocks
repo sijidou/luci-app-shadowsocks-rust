@@ -74,7 +74,7 @@ gen_config_file() {
 	json_close_object
 	
 	json_add_object
-	json_add_string "local_address" "::1"
+	json_add_string "local_address" "::"
 	json_add_int "local_port" 533
 	json_add_string "protocol" "dns"
 	json_add_string "local_dns_address" "223.5.5.5"
@@ -82,7 +82,7 @@ gen_config_file() {
 	json_add_string "remote_dns_address" "8.8.8.8"
 	json_add_int "remote_dns_port" 53
 	json_add_string "mode" "tcp_and_udp"
-	json_add_string "acl" "/etc/config/shadowsocks.acl"
+	json_add_string "acl" "/etc/shadowsocks.acl"
 	json_close_object
 
 	json_add_object
