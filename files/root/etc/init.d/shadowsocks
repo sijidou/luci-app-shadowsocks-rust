@@ -103,7 +103,7 @@ gen_config_file() {
 
 procd_common_param() {
 	procd_set_param nice -5
-	procd_set_param limits nofile="65535 65535"
+	procd_set_param limits nofile="51200 51200"
 	procd_set_param respawn
 	procd_set_param stdout 1
 	procd_set_param stderr 1
