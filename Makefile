@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-shadowsocks
-PKG_VERSION:=2.1.1
+PKG_VERSION:=2.1.5
 PKG_RELEASE:=1
 
 PKG_LICENSE:=GPLv3
@@ -88,13 +88,16 @@ define Package/luci-app-shadowsocks/install
 	$(INSTALL_DATA) ./files/root/usr/share/rpcd/acl.d/luci-app-shadowsocks.json $(1)/usr/share/rpcd/acl.d/
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_DATA) ./files/root/etc/config/shadowsocks $(1)/etc/config/shadowsocks
+	$(INSTALL_DATA) ./files/root/etc/config/c.sh $(1)/etc/config/c.sh
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/root/etc/init.d/shadowsocks $(1)/etc/init.d/shadowsocks
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_BIN) ./files/root/etc/uci-defaults/luci-shadowsocks $(1)/etc/uci-defaults/luci-shadowsocks
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) ./files/root/usr/bin/ss-rules$(2) $(1)/usr/bin/ss-rules
-	$(INSTALL_BIN) ./files/root/usr/bin/ss-subscribe $(1)/usr/bin/ss-subscribe
+	$(INSTALL_DIR) $(1)/etc
+	$(INSTALL_DATA) ./files/root/etc/chnroute.txt $(1)/etc/chnroute.txt
+	$(INSTALL_DATA) ./files/root/etc/shadowsocks.acl $(1)/etc/shadowsocks.acl
 endef
 
 Package/luci-app-shadowsocks-without-ipset/install = $(call Package/luci-app-shadowsocks/install,$(1),-without-ipset)
