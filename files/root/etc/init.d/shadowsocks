@@ -52,6 +52,7 @@ gen_config_file() {
 	json_add_int "server_port" $(uci_get_by_name $1 server_port)
 	json_add_string "method" "$(uci_get_by_name $1 encrypt_method)"
 	json_add_string "password" "$(uci_get_by_name $1 password)"
+	json_add_string "mode" "tcp_and_udp"
 	json_close_object
 	json_close_array
 
@@ -80,6 +81,7 @@ gen_config_file() {
 	json_add_object
 	json_add_string "local_address" "::"
 	json_add_int "local_port" 1080
+	json_add_string "mode" "tcp_and_udp"
 	json_close_object
 
 	json_close_array
