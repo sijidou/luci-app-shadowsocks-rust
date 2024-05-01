@@ -76,6 +76,7 @@ gen_config_file() {
 	json_add_int "remote_dns_port" 53
 	json_add_string "mode" "udp_only"
 	json_add_string "acl" "/etc/shadowsocks.acl"
+	json_add_int "client_cache_size" 0
 	json_close_object
 
 	json_add_object
