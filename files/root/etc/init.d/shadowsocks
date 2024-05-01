@@ -90,8 +90,8 @@ gen_config_file() {
 	json_add_boolean "ipv6_first" 1
 	json_add_int "nofile" 51200
 	json_add_int "timeout" $(uci_get_by_name $1 timeout 60)
-	json_add_boolean "fast_open" 1
-	json_add_boolean "no_delay" 1
+	json_add_boolean "fast_open" $(uci_get_by_name $1 fast_open)
+	json_add_boolean "no_delay" $(uci_get_by_name $1 no_delay)
 	json_add_boolean "mptcp" 0
 	json_close_object
 	json_dump -i >/var/etc/$NAME.$1.json
